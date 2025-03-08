@@ -1,0 +1,53 @@
+{
+  "product": {
+    "name": "CodingIntroJS",
+    "description": "CodingIntroJS is a lightweight library for creating interactive guided tours with a stylish spotlight effect. Enhance your website's user experience with customizable, step-by-step tutorials.",
+    "keywords": [
+      "CodingIntroJS",
+      "Guided Tour",
+      "Interactive Tour",
+      "Spotlight",
+      "JavaScript"
+    ],
+    "images": [
+      {
+        "src": "https://i.imgur.com/YtdMwBN.png",
+        "type": "image/png"
+      }
+    ],
+    "type": "library",
+    "version": "1.0.0",
+    "changelogs": [
+      {
+        "type": "fixed",
+        "changes": [
+          "Fixed minor tooltip positioning bugs.",
+          "Improved spotlight effect on various screens."
+        ]
+      },
+      {
+        "type": "deprecated",
+        "changes": [
+          "Removed deprecated spotlight border feature."
+        ]
+      }
+    ],
+    "date": "2025-03-08",
+    "versions": [
+      {
+        "version": "1.0.0",
+        "date": "2025-03-08"
+      }
+    ]
+  },
+  "organization": {
+    "name": "Coding Team",
+    "website": "https://codingteam.fr",
+    "developers": [
+      {
+        "name": "@zexus-dev",
+        "uri": "https://t.me/A_liou"
+      }
+    ]
+  }
+}
