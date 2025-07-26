@@ -7,7 +7,9 @@
       "Guided Tour",
       "Interactive Tour",
       "Spotlight",
-      "JavaScript"
+      "JavaScript",
+      "Zenith Edition",
+      "v7.2"
     ],
     "images": [
       {
@@ -16,19 +18,30 @@
       }
     ],
     "type": "library",
-    "version": "1.0.0",
+    "version": "7.2.0",
     "changelogs": [
+      {
+        "type": "added",
+        "changes": [
+          "✨ Added welcome screens via `isWelcome: true` step option.",
+          "🧭 Support for global tour control using `window.CodingIntroJS`.",
+          "🎨 Brand new animated spotlight with improved contrast and visibility.",
+          "🪟 Auto-scroll support to bring spotlighted elements into view.",
+          "🧩 Plugin-ready architecture for future extensions."
+        ]
+      },
       {
         "type": "fixed",
         "changes": [
-          "Fixed minor tooltip positioning bugs.",
-          "Improved spotlight effect on various screens."
+          "🎯 Fixed tooltip positioning on mobile screens.",
+          "🔧 Resolved issue where some tooltips overlapped viewport edges.",
+          "📏 Improved resizing logic when window size changes mid-tour."
         ]
       },
       {
         "type": "deprecated",
         "changes": [
-          "Removed deprecated spotlight border feature."
+          "🚫 Removed the outdated `border`-based spotlight style in favor of `box-shadow`."
         ]
       }
     ],
@@ -37,6 +50,10 @@
       {
         "version": "1.0.0",
         "date": "2025-03-08"
+      },
+      {
+        "version": "7.2.0",
+        "date": "2025-07-25"
       }
     ]
   },
