@@ -1,6 +1,6 @@
 # CodingIntroJS - Your Super-Easy Guide to Interactive Website Tours
 
-![Logo](https://i.imgur.com/YtdMwBN.png)
+![Logo](https://i.ibb.co/d8gtfNP/image.png)
 
 👋 **Welcome to CodingIntroJS!** Want to guide your users through your website in a fun and interactive way? This lightweight JavaScript library lets you create guided tours with smooth spotlight effects, making your site more engaging and user-friendly.
 
@@ -16,6 +16,19 @@
 | ⌨️ **Keyboard Navigation** | Allows users to navigate using the keyboard for better accessibility.      |
 | 📱 **Responsive Design**  | Works seamlessly across all screen sizes (desktop, tablet, mobile).        |
 | ⚡ **Lightweight & Fast** | No extra bloat—keep your site fast and lean.                                |
+
+---
+
+## What’s new in version 7 — Zenith Edition?
+
+* Fixed tooltip content disappearing after positioning
+* Much faster, snappier animations (less waiting)
+* Minimalist design with fewer rounded corners and lighter shadows
+* Instant element appearance—no slow fade-ins or bounces
+* Better layout on small screens with safe margins
+* Pre-calculated element positions to avoid flicker and jumps
+* Improved tooltip placement to avoid covering targets
+* Rock-solid overlay and cutout method for stability
 
 ---
 
@@ -35,159 +48,145 @@ To quickly get started, you can use the CDN version of `CodingIntroJS`. Add the 
 
 ## Usage
 
-### Step 1: Define Your Tour Steps
+### Step 1: Your HTML setup
 
-Create an array of objects to define each tour step, including which elements to spotlight and the tooltip content.
+Make sure your page has elements with IDs or classes you want to highlight. For example:
 
-```javascript
-const tourSteps = [
+```html
+<nav>
+  <button id="main-menu-btn">Menu</button>
+</nav>
+<main>
+  <h1 id="welcome-header">Welcome to My App!</h1>
+  <p>Some cool content here...</p>
+  <button class="action-btn">Click me!</button>
+</main>
+<footer>
+  <p id="footer-info">© 2024 Your Company</p>
+</footer>
+
+<!-- Include CodingIntroJS just before closing body -->
+<script src="https://cdn.jsdelivr.net/npm/codingintrojs/dist/codingintrojs.min.js"></script>
+<script src="app.js"></script> <!-- Your custom JS -->
+```
+
+---
+
+### Step 2: Define your tour steps in JavaScript
+
+A step is an object describing what to highlight and what to say.
+
+```js
+const steps = [
   {
-    selector: '#main-title', 
-    title: 'Welcome!', 
-    content: 'This is the main title of our website.'
+    isWelcome: true, // New step: welcome screen, no highlight
+    title: 'Welcome aboard! 🚀',
+    content: "Let's take a quick tour of this app."
   },
   {
-    selector: '.nav-link', 
-    title: 'Navigation Links',
-    content: 'Use these links to navigate the site.',
-    tooltipPosition: 'bottom'
+    selector: '#main-menu-btn', // Highlight element with ID 'main-menu-btn'
+    title: 'Main Menu',
+    content: 'Here you can navigate to different sections.'
   },
   {
-    selector: '#cta-button', 
-    title: 'Call to Action!',
-    content: 'Click this button to get started!',
-    tooltipPosition: 'top'
+    selector: '.action-btn', // Highlight first element with class 'action-btn'
+    title: 'Action Button',
+    content: 'This button triggers the magic.'
+  },
+  {
+    selector: '#footer-info',
+    title: 'Footer',
+    content: 'This is the footer where you can find legal info.'
   }
 ];
 ```
 
-### Step 2: Create and Initialize the Tour
+### Notes on selectors:
 
-After defining the tour steps, create a new instance of `CodingIntroJS` and start the tour:
+* Use `#id` to target by ID.
+* Use `.class` to target by class (only the first matched element).
+* You can use any valid CSS selector.
+* If you omit `#` or `.`, it will look for elements by tag name (rarely what you want).
+* If a selector matches nothing, the step will be skipped with a warning.
 
-```javascript
-const tour = new CodingIntroJS(tourSteps);
-tour.init();
+---
+
+### Step 3: Initialize and start the tour
+
+Create an instance and call `.start()`:
+
+```js
+const tour = new CodingIntroJS(steps);
+tour.start();
 ```
 
-Optionally, you can customize the look by passing an options object:
+---
 
-```javascript
-const tour = new CodingIntroJS(tourSteps, {
-  tooltipBackgroundColor: '#f0f0f0',
-  tooltipTitleColor: '#333',
-  tooltipContentColor: '#555',
-  animationSpeed: 500, // Slower animations
-  allowClose: false,   // Disable close button
-  onFinish: function() {
-    alert("Tour finished! You're now a website pro!");
-  }
+### Step 4: Customize with options
+
+You can pass a second argument to tweak behavior:
+
+```js
+const tour = new CodingIntroJS(steps, {
+  defaultTheme: 'light',      // 'dark' (default) or 'light'
+  allowClose: false,          // Disable closing with ESC key
+  animationSpeed: 300,        // Animation duration in ms
+  backdropColor: 'rgba(0,0,0,0.7)', // Color of the overlay
+  keyboardNavigation: true,   // Allow arrows + Enter navigation
+  onStart: () => console.log('Tour started'),
+  onFinish: () => alert('Tour finished!'),
+  onExit: () => console.log('Tour exited early'),
+  onBeforeStep: (index, step) => console.log(`About to show step ${index}`),
+  onAfterStep: (index, step) => console.log(`Just showed step ${index}`)
 });
-tour.init();
 ```
 
 ---
 
-## Customization Options
+### Step 5: Change theme on the fly
 
-You can tweak many aspects of the tour to match your style and preferences. Here are the available options:
+CodingIntroJS supports two built-in themes:
 
-| Option                   | Description                                                                 |
-|--------------------------|-----------------------------------------------------------------------------|
-| `spotlightPadding`        | Extra space around the spotlighted element (default: 20px).                 |
-| `overlayOpacity`          | Transparency of the overlay (range: 0 to 1, default: 0.92).                |
-| `tooltipBackgroundColor`  | Background color of the tooltip (default: dark gradient).                   |
-| `tooltipTitleColor`       | Title text color in the tooltip (default: #4285f4).                         |
-| `animationSpeed`          | Speed of animations (in milliseconds, default: 300).                        |
-| `keyboardNavigation`      | Enable/disable keyboard navigation (default: true).                         |
-| `onStart`, `onFinish`     | Functions to call when the tour starts/ends.                               |
+* **dark** (default): dark backgrounds, subtle shadows
+* **light**: brighter backgrounds, cleaner look
 
-Example of using options:
+Change the theme anytime:
 
-```javascript
-const tour = new CodingIntroJS(tourSteps, {
-  overlayOpacity: 0.8,
-  tooltipBackgroundColor: '#f0f0f0',
-  tooltipTitleColor: '#333',
-  animationSpeed: 500,
-  allowClose: false,
-  onFinish: function() {
-    alert("You're now a website pro!");
-  }
-});
-tour.init();
+```js
+tour.setTheme('light'); // Switch to light theme
+tour.setTheme('dark');  // Switch back to dark theme
 ```
 
 ---
 
-## Example
+## Step 6: Useful API methods
 
-Here’s a minimal example to help you get started quickly. Copy and paste the code into your `index.html` file, and open it in your browser!
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Demo Website</title>
-  <style>
-    body { font-family: sans-serif; }
-    nav ul { list-style: none; padding: 0; }
-    nav li { display: inline-block; margin-right: 20px; }
-    nav a { text-decoration: none; color: #007bff; }
-    button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
-  </style>
-</head>
-<body>
-
-  <h1 id="main-title">Welcome to My Demo Website!</h1>
-
-  <nav>
-    <ul>
-      <li><a href="#" class="nav-link">Home</a></li>
-      <li><a href="#" class="nav-link">Products</a></li>
-      <li><a href="#" class="nav-link">Services</a></li>
-      <li><a href="#" class="nav-link">Contact</a></li>
-    </ul>
-  </nav>
-
-  <p>Here’s some content, we’ll guide you through it with a tour.</p>
-
-  <button id="cta-button">Learn More</button>
-
-  <script src="https://cdn.jsdelivr.net/npm/codingintrojs/dist/codingintrojs.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const tourSteps = [
-        { selector: '#main-title', title: 'Hello!', content: 'This is our main title.' },
-        { selector: 'nav', title: 'Navigation', content: 'Use these links to navigate the site.' },
-        { selector: '#cta-button', title: 'Click Me!', content: 'Click this button to learn more!' }
-      ];
-      const tour = new CodingIntroJS(tourSteps);
-      tour.init();
-    });
-  </script>
-</body>
-</html>
+```js
+tour.start();    // Start or restart the tour
+tour.next();     // Go to next step
+tour.prev();     // Go to previous step
+tour.goTo(2);    // Jump to step index 2 (third step)
+tour.exit();     // Exit the tour immediately
 ```
 
 ---
 
-## Contributing
 
-We welcome contributions! If you have ideas for improvements, bug fixes, or new features, feel free to open an issue or submit a pull request. Here's how you can contribute:
+## Troubleshooting & Tips
 
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-name`).
-3. Commit your changes (`git commit -am 'Add new feature'`).
-4. Push to the branch (`git push origin feature-name`).
-5. Open a pull request.
+* Always double-check your selectors (`#id` or `.class`) — miss one and the step gets skipped.
+* Make sure elements exist *and are visible* when the tour starts.
+* Use `onBeforeStep` to prepare the UI if needed (like enabling disabled buttons).
+* For multi-page apps or SPAs, you can recreate or update steps dynamically before starting the tour.
+
+---
+
+## How to contribute
+
+Love it? Want to make it better? Great! Fork, create a feature branch, commit, push, and open a pull request.
 
 ---
 
 ## License
 
-This project is licensed under the MIT License. Feel free to use it in your personal and commercial projects.
-
----
+MIT — do what you want. Just don’t blame us if your app becomes way too popular! 😉
